@@ -25,6 +25,13 @@ const energyOptions: Option[] = [
 
 function App() {
   const [selectedCarType, setSelectedCarType] = useState<string>('');
+  const carTypeErrorMessage = useMemo(() => {
+    if (!selectedCarType) {
+      return 'Vous devez renseigner un type de véhicule';
+    }
+    return ''
+  }, [selectedCarType])
+
   const [selectedEnergy, setSelectedEnergy] = useState<string>('');
   const [selectedPassengers, setSelectedPassengers] = useState<number>();
   const [selectedKilometers, setSelectedKilometers] = useState<number>();
@@ -44,74 +51,88 @@ function App() {
   }, [selectedCarType, selectedEnergy, selectedKilometers, selectedPassengers, selectedYears])
 
   return (
-    <div className="container">
-      <h1 className="title">GreenBorrow</h1>
-      <h2 className="subtitle">Calculer le taux d'emprunt selon l'impact écologique de votre véhicule</h2>
-
-      <div className="columns">
-        <div className="column">
-          {/* Type */}
-          <Select
-            label='Type de véhicule'
-            id='select-car-type'
-            options={carTypeOptions}
-            value={selectedCarType}
-            onChange={setSelectedCarType}
-          />
-
-          {/* Energie */}
-          <Select
-            label='Energie'
-            id='select-energy'
-            options={energyOptions}
-            value={selectedEnergy}
-            onChange={setSelectedEnergy}
-          />
-
-          {/* Km */}
-          <InputNumber
-            label='Kilométrage'
-            id='select-kilometers'
-            value={selectedKilometers}
-            onChange={setSelectedKilometers}
-            min={5_000}
-          />
-
-          {/* Year */}
-          <InputNumber
-            label='Année'
-            id='select-years'
-            value={selectedYears}
-            onChange={setSelectedYears}
-            min={1960}
-          />
-
-          {/* Nb passager */}
-          <InputNumber
-            label='Nombre de passagers'
-            id='select-passengers'
-            value={selectedPassengers}
-            onChange={setSelectedPassengers}
-            min={1}
-            max={4}
-          />
+    <>
+      <section className="hero is-medium is-primary">
+        <div className="hero-body">
+          <p className="title">GreenBorrow</p>
+          <p className="subtitle">Calculer le taux d'emprunt selon l'impact écologique de votre véhicule</p>
         </div>
-        <div className="column">
-          {calculatedRate != null && (
-            <div className="has-text-centered">
-              <h3 className="title">Votre taux s'élève à :</h3>
-              <div className="is-size-1">
-                {calculatedRate}
+      </section>
+      <main className="container">
+        <section className="section">
+          <div className="columns">
+            <div className="column">
+              <div className="box">
+                {/* Type */}
+                <Select
+                  label='Type de véhicule'
+                  id='select-car-type'
+                  options={carTypeOptions}
+                  value={selectedCarType}
+                  onChange={setSelectedCarType}
+                />
+
+                {/* Energie */}
+                <Select
+                  label='Energie'
+                  id='select-energy'
+                  options={energyOptions}
+                  value={selectedEnergy}
+                  onChange={setSelectedEnergy}
+                />
+
+                {/* Km */}
+                <InputNumber
+                  label='Kilométrage'
+                  id='select-kilometers'
+                  value={selectedKilometers}
+                  onChange={setSelectedKilometers}
+                  min={5_000}
+                  placeholder='25000'
+                />
+
+                {/* Year */}
+                <InputNumber
+                  label='Année'
+                  id='select-years'
+                  value={selectedYears}
+                  onChange={setSelectedYears}
+                  min={1960}
+                  placeholder='2015'
+                />
+
+                {/* Nb passager */}
+                <InputNumber
+                  label='Nombre de passagers'
+                  id='select-passengers'
+                  value={selectedPassengers}
+                  onChange={setSelectedPassengers}
+                  placeholder='3'
+                  min={1}
+                  max={4}
+                />
               </div>
             </div>
-          ) || (
-              <div className="notification is-info">
-                Toutes les données ne sont pas encore renseignées
+            <div className="column">
+              <div className="box box-result-rate">
+                {calculatedRate != null && (
+                  <div className="has-text-centered">
+                    <h3 className="title">Votre taux s'élève à :</h3>
+                    <div className="is-size-1">
+                      {calculatedRate}%
+                    </div>
+                  </div>
+                ) || (
+                    <div className="notification is-info">
+                      Toutes les données ne sont pas encore renseignées
+                    </div>
+                  )}
               </div>
-            )}
-        </div>
-      </div>
-    </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   )
 }
 

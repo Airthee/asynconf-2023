@@ -109,6 +109,6 @@ export class RateCalculator {
     const passengersScore = this.getPassengersScore(passengers);
 
     const totalScore = carTypeScore + energyScore + kilometersScore + yearsScore;
-    return this.getRateFromScore(totalScore) + passengersScore;
+    return Math.round((this.getRateFromScore(totalScore) + passengersScore) * 100) / 100;
   }
 }

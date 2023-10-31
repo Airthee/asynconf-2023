@@ -4,13 +4,14 @@ type InputNumberProps = {
   id: string
   label: string
   value: number | undefined,
+  placeholder?: string,
   min?: number,
   max?: number,
   required?: boolean,
   onChange: (newValue: number) => void
 }
 
-function InputNumber({ id, label, onChange, value, min, max, required }: InputNumberProps) {
+function InputNumber({ id, label, onChange, value, min, max, required, placeholder }: InputNumberProps) {
   return (
     <div className="field">
       <label className="label" htmlFor={id}>{label}</label>
@@ -23,6 +24,7 @@ function InputNumber({ id, label, onChange, value, min, max, required }: InputNu
           min={min}
           max={max}
           required={required}
+          placeholder={placeholder}
           onInput={(e: React.ChangeEvent<HTMLInputElement>) => onChange(parseFloat(e.target.value))}
         />
       </div>
