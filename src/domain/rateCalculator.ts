@@ -16,7 +16,7 @@ const ENERGY_SCORES = {
 export type CarType = keyof typeof CAR_TYPES_SCORES;
 export type Energy = keyof typeof ENERGY_SCORES;
 
-type GetRateArguments = {
+export type RateCalculatorParams = {
   carType: CarType,
   energy: Energy,
   kilometers: number,
@@ -25,7 +25,7 @@ type GetRateArguments = {
 }
 
 export class RateCalculator {
-  private getKilometersScore(kilometers: GetRateArguments['kilometers']): number {
+  private getKilometersScore(kilometers: RateCalculatorParams['kilometers']): number {
     if (kilometers < 5_000) {
       return 10
     }
@@ -47,7 +47,7 @@ export class RateCalculator {
     return 0
   }
 
-  private getYearScore(year: GetRateArguments['year']): number {
+  private getYearScore(year: RateCalculatorParams['year']): number {
     if (year > 2010) {
       return 7
     }
@@ -69,7 +69,7 @@ export class RateCalculator {
     return 0
   }
 
-  private getPassengersScore(passengers: GetRateArguments['passengers']): number {
+  private getPassengersScore(passengers: RateCalculatorParams['passengers']): number {
     if (passengers >= 4) {
       return -0.53;
     }
@@ -101,7 +101,7 @@ export class RateCalculator {
     return 3;
   }
 
-  getRate({ carType, energy, kilometers, year, passengers }: GetRateArguments): number {
+  getRate({ carType, energy, kilometers, year, passengers }: RateCalculatorParams): number {
     const carTypeScore = CAR_TYPES_SCORES[carType];
     const energyScore = ENERGY_SCORES[energy];
     const kilometersScore = this.getKilometersScore(kilometers);
